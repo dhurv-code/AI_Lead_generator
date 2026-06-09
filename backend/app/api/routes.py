@@ -6,7 +6,7 @@ from app.schemas.request_schema import AnalyzeRequest
 from app.services.lead_processor import process_lead
 from app.utils.file_helper import save_upload_file
 from app.services.batch_processor import process_csv
-
+from app.database.lead_repository import get_all_leads
 router = APIRouter()
 
 
@@ -37,3 +37,9 @@ async def upload_csv(file:UploadFile= File(...)):
     results=process_csv(file_path)
 
     return results
+
+@router.get("/reports")
+def get_reports():
+    return get_all_leads(
+        
+    )
