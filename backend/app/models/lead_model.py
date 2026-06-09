@@ -9,4 +9,4 @@ def create_lead_document(data):
         "recommendation":data[recommendation],
         "email":data[email],
         "created_at":datetime.utcnow()
-    }]
+    }

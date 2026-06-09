@@ -1,5 +1,7 @@
-from fastapifrom fastapi import APIRouter
+from fastapi import APIRouter
 from app.schemas.request_schema import AnalyzeRequest
+from app.services.scraper import scrape_website
+from app.database.lead_repository import save_lead
 
 router = APIRouter()
 
@@ -10,7 +12,10 @@ def health_check():
 @router.post("/analyze")
 def analyze_website(request: AnalyzeRequest):
 
-    return {
-        "message": "Analysis endpoint working",
-        "url": request.url
-    }
+    website_data=scrape_website(request.url)
+    save_lead({
+        "website":request.url,
+        "title":website_data["title"],
+        "content":website_data["content"]
+    })
+    return website_data
