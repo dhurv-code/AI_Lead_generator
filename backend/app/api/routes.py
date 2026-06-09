@@ -41,5 +41,8 @@ async def upload_csv(file:UploadFile= File(...)):
 @router.get("/reports")
 def get_reports():
     return get_all_leads(
-        
+
     )
+@router.post("/find-leads")
+def find_leads():
+    pass
