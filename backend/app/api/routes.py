@@ -4,6 +4,8 @@ from app.schemas.request_schema import AnalyzeRequest
 # from app.services.analyzer import analyze_content
 # from app.services.email_generator import generate_email
 from app.services.lead_processor import process_lead
+from app.utils.file_helper import save_upload_file
+from app.services.batch_processor import process_csv
 
 router = APIRouter()
 
@@ -31,6 +33,7 @@ def analyze_website(request: AnalyzeRequest):
 
 @router.post("/upload-csv")
 async def upload_csv(file:UploadFile= File(...)):
-    return {
-        "filename":file.filename
-    }
+    file_path=await save_upload_file(file)
+    results=process_csv(file_path)
+
+    return results
