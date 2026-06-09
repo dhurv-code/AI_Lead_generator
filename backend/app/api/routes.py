@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,UploadFile, File
 from app.schemas.request_schema import AnalyzeRequest
 from app.services.scraper import scrape_website
 from app.services.analyzer import analyze_content
@@ -22,9 +22,15 @@ def analyze_website(request: AnalyzeRequest):
     email=generate_email(
         audit["business_type"],
         audit["issues"],
-        audit["recommendation"]
+        audit["recommendations"]
     )
 
     audit["email"]=email
 
     return audit
+
+@router.post("/upload-csv")
+async def upload_csv(file:UploadFile= File(...)):
+    return {
+        "filename":file.filename
+    }
