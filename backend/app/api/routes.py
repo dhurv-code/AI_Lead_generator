@@ -7,6 +7,9 @@ from app.services.lead_processor import process_lead
 from app.utils.file_helper import save_upload_file
 from app.services.batch_processor import process_csv
 from app.database.lead_repository import get_all_leads
+from app.schemas.lead_search_schema import LeadSearchRequest
+from app.service.lead_finder import find_leads
+from app.services.lead_processor import process_lead
 router = APIRouter()
 
 
@@ -17,18 +20,6 @@ def health_check():
 
 @router.post("/analyze")
 def analyze_website(request: AnalyzeRequest):
-
-    # website_data = scrape_website(request.url)
-    # audit = analyze_content(website_data["content"])
-
-    # email=generate_email(
-    #     audit["business_type"],
-    #     audit["issues"],
-    #     audit["recommendations"]
-    # )
-
-    # audit["email"]=email
-
     return process_lead(request.url)
 
 @router.post("/upload-csv")
@@ -44,5 +35,22 @@ def get_reports():
 
     )
 @router.post("/find-leads")
-def find_leads():
+def discover_leads(request:LeadSearchRequest):
+    leads=find_leads(request.niche, request.location)
+    results=[]
+    for lead in leads:
+        if lead.get("website"):
+            result=process_lead(
+                lead["website"]
+            )
+            result["business_name"]=lead["business_name"]
+            results.append(result)
+    return results
+
+@router.get("/reports")
+def reports():
+    return get_all_leads()
+
+@router.get("/exports")
+def export():
     pass

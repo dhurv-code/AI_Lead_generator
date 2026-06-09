@@ -1,7 +1,7 @@
 from app.services.scraper import scrape_website
 from app.services.analyzer import analyze_content
 from app.services.email_generator import generate_email
-
+from app.database.lead_repository import save_lead
 def process_lead(url):
 
     website_data = scrape_website(url)
@@ -18,5 +18,6 @@ def process_lead(url):
 
     audit["email"] = email
     audit["website"] = url
+    save_lead(audit)
 
     return audit
