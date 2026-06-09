@@ -5,6 +5,13 @@ from app.database.lead_repository import save_lead
 def process_lead(url):
 
     website_data = scrape_website(url)
+    if "error" in website_data:
+        return {
+            "website": url,
+            "business_name":business_name,
+            "status":"failed",
+            "error":website_data["error"]
+        }
 
     audit = analyze_content(
         website_data["content"]

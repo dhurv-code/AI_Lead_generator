@@ -8,7 +8,7 @@ from app.utils.file_helper import save_upload_file
 from app.services.batch_processor import process_csv
 from app.database.lead_repository import get_all_leads
 from app.schemas.lead_search_schema import LeadSearchRequest
-from app.service.lead_finder import find_leads
+from app.services.lead_finder import find_leads
 from app.services.lead_processor import process_lead
 router = APIRouter()
 
