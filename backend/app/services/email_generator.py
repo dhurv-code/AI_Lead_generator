@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from app.config import settings
 
-genai=genai.congigure(api_key=settings.GEMINI_API_KEY)
+genai.configure(api_key=settings.GEMINI_API_KEY)
 model=genai.GenerativeModel("gemini-2.5-flash")
 
 def generate_email(business_type,issues,recommendations):
