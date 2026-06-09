@@ -25,11 +25,15 @@ def process_lead(url, ):
     audit["email"] = email
     audit["website"] = url
 
-    try:
-        # passya 
-        lead_id=save_lead(audit)
-        audit["lead_id"]=lead_id
-    except Exception as e:
-        print("Mongodb Save Error:",e)
+    print("before save")
+    print(audit)
+
+    document = audit.copy()
+    lead_id=save_lead(document)
+
+    print("after save")
+    print(audit)
+
+    audit["lead_id"]=lead_id
 
     return audit
