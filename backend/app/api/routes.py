@@ -1,9 +1,9 @@
 from fastapi import APIRouter,UploadFile, File
 from app.schemas.request_schema import AnalyzeRequest
-from app.services.scraper import scrape_website
-from app.services.analyzer import analyze_content
-from app.services.email_generator import generate_email
-
+# from app.services.scraper import scrape_website
+# from app.services.analyzer import analyze_content
+# from app.services.email_generator import generate_email
+from app.services.lead_processor import process_lead
 
 router = APIRouter()
 
@@ -16,18 +16,18 @@ def health_check():
 @router.post("/analyze")
 def analyze_website(request: AnalyzeRequest):
 
-    website_data = scrape_website(request.url)
-    audit = analyze_content(website_data["content"])
+    # website_data = scrape_website(request.url)
+    # audit = analyze_content(website_data["content"])
 
-    email=generate_email(
-        audit["business_type"],
-        audit["issues"],
-        audit["recommendations"]
-    )
+    # email=generate_email(
+    #     audit["business_type"],
+    #     audit["issues"],
+    #     audit["recommendations"]
+    # )
 
-    audit["email"]=email
+    # audit["email"]=email
 
-    return audit
+    return process_lead(request.url)
 
 @router.post("/upload-csv")
 async def upload_csv(file:UploadFile= File(...)):
