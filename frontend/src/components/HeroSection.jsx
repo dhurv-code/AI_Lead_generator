@@ -2,19 +2,24 @@ const HeroSection = () => {
   return (
     <section className="hero-section">
       <div className="hero-copy">
-        <p className="eyebrow">Intelligent prospecting for high-fit opportunities</p>
-        <h1>Turn any website into a qualified lead profile.</h1>
+        <p className="eyebrow">Intelligent Lead Analysis</p>
+        <h1>Turn websites into qualified leads in seconds.</h1>
         <p className="hero-text">
-          Analyze a company in seconds, surface its growth issues, and generate an outreach message that feels relevant and precise.
+          Analyze company websites, identify growth opportunities, and generate personalized outreach emails powered by AI. 
+          Get actionable insights to improve your prospecting.
         </p>
         <div className="hero-stats">
           <div>
-            <strong>2 min</strong>
+            <strong>3 sec</strong>
             <span>average analysis</span>
           </div>
           <div>
-            <strong>94%</strong>
-            <span>relevant insights</span>
+            <strong>AI-Powered</strong>
+            <span>recommendations</span>
+          </div>
+          <div>
+            <strong>Ready-to-Send</strong>
+            <span>outreach emails</span>
           </div>
         </div>
       </div>

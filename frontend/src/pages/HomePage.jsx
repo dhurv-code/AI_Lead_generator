@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import AnalysisCard from '../components/AnalysisCard'
 import EmailCard from '../components/EmailCard'
+import ErrorAlert from '../components/ErrorAlert'
+import EnhancedLoadingSpinner from '../components/EnhancedLoadingSpinner'
 import HeroSection from '../components/HeroSection'
-import LoadingSpinner from '../components/LoadingSpinner'
+import IssuesGrid from '../components/IssuesGrid'
+import RecommendationsGrid from '../components/RecommendationsGrid'
+import SummaryCards from '../components/SummaryCards'
 import UrlAnalyzerForm from '../components/UrlAnalyzerForm'
 import { analyzeWebsite } from '../services/api'
 
@@ -15,14 +19,14 @@ const HomePage = () => {
   const resultsRef = useRef(null)
 
   useEffect(() => {
-    document.title = 'Apex Leads | AI Lead Generation'
+    document.title = 'LeadForge AI | Lead Generation Platform'
   }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
 
     if (!url.trim()) {
-      setError('Enter a website URL to start the analysis.')
+      setError('Please enter a website URL to analyze.')
       return
     }
 
@@ -35,10 +39,10 @@ const HomePage = () => {
       setResult(response.data)
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 120)
+      }, 100)
     } catch (err) {
       setResult(null)
-      setError(err.response?.data?.detail || 'We could not analyze that website. Please try again in a moment.')
+      setError(err.response?.data?.detail || 'Unable to analyze this website. Please check the URL and try again.')
     } finally {
       setIsLoading(false)
     }
@@ -50,7 +54,7 @@ const HomePage = () => {
     try {
       await navigator.clipboard.writeText(result.email)
       setCopied(true)
-      window.setTimeout(() => setCopied(false), 1800)
+      window.setTimeout(() => setCopied(false), 2000)
     } catch {
       setCopied(false)
     }
@@ -62,8 +66,8 @@ const HomePage = () => {
 
       <section className="analysis-panel">
         <div className="panel-heading">
-          <p className="eyebrow">Quick analysis</p>
-          <h2>Paste a target website and capture an instant lead brief.</h2>
+          <p className="eyebrow">Quick Analysis</p>
+          <h2>Analyze any website to generate qualified leads</h2>
         </div>
 
         <UrlAnalyzerForm
@@ -71,25 +75,28 @@ const HomePage = () => {
           setUrl={setUrl}
           onSubmit={handleSubmit}
           isLoading={isLoading}
-          error={error}
         />
 
-        {isLoading ? <LoadingSpinner /> : null}
+        {error && <ErrorAlert message={error} onDismiss={() => setError('')} />}
+
+        {isLoading && <EnhancedLoadingSpinner />}
 
         {result ? (
           <section className="results-section" ref={resultsRef}>
             <div className="results-header">
               <div>
-                <p className="eyebrow">Analysis ready</p>
-                <h3>Lead intelligence generated</h3>
+                <p className="eyebrow">Analysis Results</p>
+                <h3>Lead Intelligence Generated</h3>
               </div>
-              <p className="results-subtext">Use the insights below to personalize your outreach with confidence.</p>
             </div>
 
-            <div className="results-grid">
-              <AnalysisCard result={result} />
-              <EmailCard email={result.email} onCopy={handleCopy} copied={copied} />
-            </div>
+            <SummaryCards result={result} />
+
+            <IssuesGrid issues={result?.issues} />
+
+            <RecommendationsGrid recommendations={result?.recommendations} />
+
+            <EmailCard email={result?.email} onCopy={handleCopy} copied={copied} />
           </section>
         ) : null}
       </section>

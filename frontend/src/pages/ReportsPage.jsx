@@ -1,22 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'
+import ErrorAlert from '../components/ErrorAlert'
 import ReportTable from '../components/ReportTable'
 import { fetchReports } from '../services/api'
 
 const ReportsPage = () => {
   const [reports, setReports] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [businessTypeFilter, setBusinessTypeFilter] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    document.title = 'Apex Leads | Reports'
+    document.title = 'LeadForge AI | Reports'
 
     const loadReports = async () => {
       try {
         const response = await fetchReports()
         setReports(Array.isArray(response.data) ? response.data : [])
       } catch (err) {
-        setError('We could not load your reports right now. Please try again shortly.')
+        setError('Unable to load reports. Please try again later.')
       } finally {
         setIsLoading(false)
       }
@@ -26,33 +28,57 @@ const ReportsPage = () => {
   }, [])
 
   const filteredReports = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase()
+    let filtered = reports
 
-    if (!term) return reports
+    const searchLower = searchTerm.trim().toLowerCase()
+    if (searchLower) {
+      filtered = filtered.filter((report) => (report.website || '').toLowerCase().includes(searchLower))
+    }
 
-    return reports.filter((report) => (report.website || '').toLowerCase().includes(term))
-  }, [reports, searchTerm])
+    if (businessTypeFilter) {
+      filtered = filtered.filter((report) => (report.business_type || '').toLowerCase() === businessTypeFilter.toLowerCase())
+    }
+
+    return filtered
+  }, [reports, searchTerm, businessTypeFilter])
+
+  const businessTypes = useMemo(() => {
+    const types = new Set(reports.map((r) => r.business_type).filter(Boolean))
+    return Array.from(types).sort()
+  }, [reports])
 
   return (
     <div className="reports-page">
       <section className="page-hero">
         <div>
           <p className="eyebrow">Reports</p>
-          <h2>Review every lead analysis in one place.</h2>
-          <p className="page-description">Keep track of your outreach pipeline and revisit each lead with a single view.</p>
+          <h2>Your Lead Analysis History</h2>
+          <p className="page-description">
+            Review all analyzed websites and their insights in one place. Track your lead generation progress.
+          </p>
         </div>
       </section>
+
+      {error && <ErrorAlert message={error} onDismiss={() => setError('')} />}
 
       {isLoading ? (
         <div className="loading-state compact">
           <div className="spinner" />
-          <p>Loading saved reports…</p>
+          <p>Loading reports…</p>
         </div>
       ) : null}
 
-      {error ? <p className="form-error">{error}</p> : null}
-
-      {!isLoading && !error ? <ReportTable reports={filteredReports} searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> : null}
+      {!isLoading && !error ? (
+        <ReportTable
+          reports={filteredReports}
+          totalReports={reports.length}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          businessTypes={businessTypes}
+          businessTypeFilter={businessTypeFilter}
+          setBusinessTypeFilter={setBusinessTypeFilter}
+        />
+      ) : null}
     </div>
   )
 }

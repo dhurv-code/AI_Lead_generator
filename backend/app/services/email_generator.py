@@ -6,8 +6,17 @@ model=genai.GenerativeModel("gemini-2.5-flash")
 
 def generate_email(business_type,issues,recommendations):
     prompt=f"""
-    You are an expert sales copywriter.
-    Generate a professional cold outreach email.
+    Generate a cold outreach email.
+
+    Rules:
+
+    - Maximum 120 words.
+    - Professional tone.
+    - Mention only ONE key issue.
+    - Mention ONE recommendation.
+    - End with a call to action.
+    - No markdown.
+    - No bullet points.
 
     Business Type:
     {business_type}
@@ -17,12 +26,6 @@ def generate_email(business_type,issues,recommendations):
 
     Recommendations:
     {recommendations}
-
-    keep it:
-    - Professional
-    - Short
-    - Personalized
-    - Under 150 words
     """
 
     response=model.generate_content(prompt)

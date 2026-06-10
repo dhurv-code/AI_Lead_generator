@@ -4,10 +4,10 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="brand-block">
-        <div className="brand-mark">AL</div>
+        <div className="brand-mark">LF</div>
         <div>
-          <p className="brand-title">Apex Leads</p>
-          <p className="brand-subtitle">AI lead generation</p>
+          <p className="brand-title">LeadForge AI</p>
+          <p className="brand-subtitle">Lead Generation</p>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-const UrlAnalyzerForm = ({ url, setUrl, onSubmit, isLoading, error }) => {
+const UrlAnalyzerForm = ({ url, setUrl, onSubmit, isLoading }) => {
   return (
     <form className="analyzer-form" onSubmit={onSubmit}>
       <label className="sr-only" htmlFor="website-url">
@@ -11,11 +11,11 @@ const UrlAnalyzerForm = ({ url, setUrl, onSubmit, isLoading, error }) => {
         onChange={(event) => setUrl(event.target.value)}
         placeholder="https://example.com"
         autoComplete="off"
+        disabled={isLoading}
       />
       <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Analyzing…' : 'Analyze website'}
+        {isLoading ? 'Analyzing…' : 'Analyze Website'}
       </button>
-      {error ? <p className="form-error">{error}</p> : null}
     </form>
   )
 }

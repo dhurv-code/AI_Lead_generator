@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>Built for modern revenue teams that want sharper outreach.</p>
+      <p>LeadForge AI — AI Lead Generation Platform © {new Date().getFullYear()}</p>
     </footer>
   )
 }
