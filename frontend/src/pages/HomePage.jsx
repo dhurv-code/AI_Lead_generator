@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import AnalysisCard from '../components/AnalysisCard'
+import ContactEmailsCard from '../components/ContactEmailsCard'
+import ContactPhonesCard from '../components/ContactPhonesCard'
 import EmailCard from '../components/EmailCard'
 import ErrorAlert from '../components/ErrorAlert'
 import EnhancedLoadingSpinner from '../components/EnhancedLoadingSpinner'
@@ -95,6 +96,14 @@ const HomePage = () => {
             <IssuesGrid issues={result?.issues} />
 
             <RecommendationsGrid recommendations={result?.recommendations} />
+
+            <div className="contact-section">
+              <h3 className="section-title">Contact Information</h3>
+              <div className="contact-grid">
+                <ContactEmailsCard emails={result?.contact_emails} />
+                <ContactPhonesCard phones={result?.contact_phones} />
+              </div>
+            </div>
 
             <EmailCard email={result?.email} onCopy={handleCopy} copied={copied} />
           </section>

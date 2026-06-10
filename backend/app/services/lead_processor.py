@@ -24,6 +24,8 @@ def process_lead(url, ):
 
     audit["email"] = email
     audit["website"] = url
+    audit["contact_emails"]=website_data.get("emails",[])
+    audit["contact_phones"]=website_data.get("phones",[])
 
     print("before save")
     print(audit)

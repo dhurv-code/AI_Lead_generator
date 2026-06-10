@@ -42,6 +42,7 @@ def analyze_content(content: str):
 
     {content[:3000]}
     """
+    print("API KEY:", settings.GEMINI_API_KEY[:10])
 
     try:
         response = model.generate_content(prompt)
