@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import ContactEmailsCard from '../components/ContactEmailsCard'
-import ContactPhonesCard from '../components/ContactPhonesCard'
-import EmailCard from '../components/EmailCard'
-import ErrorAlert from '../components/ErrorAlert'
-import EnhancedLoadingSpinner from '../components/EnhancedLoadingSpinner'
+// import ContactEmailsCard from '../components/ContactEmailsCard'
+// import ContactPhonesCard from '../components/ContactPhonesCard'
+// import EmailCard from '../components/EmailCard'
+// import ErrorAlert from '../components/ErrorAlert'
+// import EnhancedLoadingSpinner from '../components/EnhancedLoadingSpinner'
 import HeroSection from '../components/HeroSection'
-import IssuesGrid from '../components/IssuesGrid'
-import RecommendationsGrid from '../components/RecommendationsGrid'
-import SummaryCards from '../components/SummaryCards'
-import UrlAnalyzerForm from '../components/UrlAnalyzerForm'
+// import IssuesGrid from '../components/IssuesGrid'
+// import RecommendationsGrid from '../components/RecommendationsGrid'
+// import SummaryCards from '../components/SummaryCards'
+// import UrlAnalyzerForm from '../components/UrlAnalyzerForm'
 import { analyzeWebsite } from '../services/api'
+import LeadSearchForm from '../components/LeadSearchForm'
+
+
 
 const HomePage = () => {
-  const [url, setUrl] = useState('')
+  // const [url, setUrl] = useState('')
   const [result, setResult] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [error, setError] = useState('')
+  // const [copied, setCopied] = useState(false)
   const resultsRef = useRef(null)
 
   useEffect(() => {
@@ -65,50 +68,9 @@ const HomePage = () => {
     <div className="home-page">
       <HeroSection />
 
-      <section className="analysis-panel">
-        <div className="panel-heading">
-          <p className="eyebrow">Quick Analysis</p>
-          <h2>Analyze any website to generate qualified leads</h2>
-        </div>
+      <LeadSearchForm />
 
-        <UrlAnalyzerForm
-          url={url}
-          setUrl={setUrl}
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-        />
-
-        {error && <ErrorAlert message={error} onDismiss={() => setError('')} />}
-
-        {isLoading && <EnhancedLoadingSpinner />}
-
-        {result ? (
-          <section className="results-section" ref={resultsRef}>
-            <div className="results-header">
-              <div>
-                <p className="eyebrow">Analysis Results</p>
-                <h3>Lead Intelligence Generated</h3>
-              </div>
-            </div>
-
-            <SummaryCards result={result} />
-
-            <IssuesGrid issues={result?.issues} />
-
-            <RecommendationsGrid recommendations={result?.recommendations} />
-
-            <div className="contact-section">
-              <h3 className="section-title">Contact Information</h3>
-              <div className="contact-grid">
-                <ContactEmailsCard emails={result?.contact_emails} />
-                <ContactPhonesCard phones={result?.contact_phones} />
-              </div>
-            </div>
-
-            <EmailCard email={result?.email} onCopy={handleCopy} copied={copied} />
-          </section>
-        ) : null}
-      </section>
+  
     </div>
   )
 }

@@ -12,5 +12,7 @@ export const analyzeWebsite = async (url) => {
 export const fetchReports = async () => {
   return api.get('/reports')
 }
+export const findLeads = ({ niche, location, limit = 20 }) =>
+  api.post('/find-leads', { niche, location, limit })
 
 export default api

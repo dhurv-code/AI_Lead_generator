@@ -3,24 +3,24 @@ const HeroSection = () => {
     <section className="hero-section">
       <div className="hero-copy">
         <p className="eyebrow">Intelligent Lead Analysis</p>
-        <h1>Turn websites into qualified leads in seconds.</h1>
+        <h1>Find qualified leads in seconds according to your perspective.</h1>
         <p className="hero-text">
-          Analyze company websites, identify growth opportunities, and generate personalized outreach emails powered by AI. 
+          Search the businesses with the locations and identify growth opportunities using LeadForgeAI.<br/>
           Get actionable insights to improve your prospecting.
         </p>
         <div className="hero-stats">
           <div>
-            <strong>3 sec</strong>
+            <strong>10-15 sec</strong>
             <span>average analysis</span>
           </div>
           <div>
             <strong>AI-Powered</strong>
             <span>recommendations</span>
           </div>
-          <div>
+          {/* <div>
             <strong>Ready-to-Send</strong>
             <span>outreach emails</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
